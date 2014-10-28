@@ -1,0 +1,64 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Translator_1.MainWindow"
+        Title="Translator_v0.0.0.1" Height="auto" Width="auto" WindowStyle="None" WindowState="Maximized" d:DesignWidth="1425.589" d:DesignHeight="743.97">
+    <Grid Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="49*" />
+            <ColumnDefinition Width="49*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"/>
+                <RowDefinition Height="50*"/>
+            </Grid.RowDefinitions>
+            <Grid Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="46*"/>
+                <ColumnDefinition Width="27*"/>
+                <ColumnDefinition Width="27*"/>
+            </Grid.ColumnDefinitions>
+                <ListView Grid.Column="0" Name="OutputList" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Row" Width="82" DisplayMemberBinding="{Binding Row}" />
+                            <GridViewColumn Header="SubString" Width="82" DisplayMemberBinding="{Binding SubString}" />
+                            <GridViewColumn Header="LexemeCode" Width="82" DisplayMemberBinding="{Binding LexemeCode}" />
+                            <GridViewColumn Header="IdConIndex" Width="82" DisplayMemberBinding="{Binding IdConTableIndex}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView Name="VariableList" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Key" Width="82" DisplayMemberBinding="{Binding Key}" />
+                            <GridViewColumn Header="Value" Width="82" DisplayMemberBinding="{Binding Value}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView Name="ConstantList" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Key" Width="82" DisplayMemberBinding="{Binding Key}" />
+                            <GridViewColumn Header="Value" Width="82" DisplayMemberBinding="{Binding Value}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <TextBox Name="TextOutputBox" HorizontalAlignment="Stretch" Margin="10,20,10,10" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Stretch" Grid.Row="0" FontSize="17" IsReadOnly="True"/>
+        </Grid>
+        <TextBox Name="TextInputBox" HorizontalAlignment="Stretch" Margin="10,20,10,10" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0"  FontSize="17"/>
+        <Button Name="SaveButton" Click="SaveButton_OnClick" Content="Save" HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" Width="140" Grid.Row="1" Grid.Column="0"  FontSize="15"/>
+        <Button Name="LoadButton" Click="LoadButton_OnClick" Content="Load" HorizontalAlignment="Left" Margin="160,10,10,10" VerticalAlignment="Top" Width="140" Grid.Row="1" Grid.Column="0"  FontSize="15"/>
+        <Button Name="TranslateButton" Click="TranslateButton_OnClick" Content="Translate" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="140" Grid.Row="1" Grid.Column="0" FontSize="15"/>
+        
+        <Grid Grid.Row="1" Grid.Column="0" Margin="455,5,0,33">
+            <Rectangle Name="LexicStatusRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="26" Margin="0,5,0,0" Stroke="LightSkyBlue" VerticalAlignment="Top" Width="73"/>
+            <TextBlock Text="Lexic" Margin="5,8,0,0" FontSize="15"></TextBlock>
+            <Rectangle Name="SynthaxStatusRectangle" Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="26" Margin="90,5,0,0" Stroke="LightSkyBlue" VerticalAlignment="Top" Width="73"/>
+            <TextBlock Text="Synthax" Margin="95,8,0,0" FontSize="15"></TextBlock>
+        </Grid>
+    </Grid>
+</Window>
