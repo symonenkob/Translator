@@ -72,6 +72,9 @@ namespace Translator_1
             Lexems.Add(29, "!=");
             Lexems.Add(30, "=");
             Lexems.Add(31, "^");
+            Lexems.Add(32, "!");
+            Lexems.Add(33, "and");
+            Lexems.Add(34, "or");
         }
 
         public static string DoLexTranslate(String filteredText, ref OutputTable outputTable)
@@ -392,28 +395,171 @@ namespace Translator_1
             bool result = false;
             try
             {
-                OutputRow curLexem = outputTable.OutputRows[curLexemIndex++];
-                if (curLexem.LexemeCode == Lexems.First(l => l.Value == "read" || l.Value == "write").Key)
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (OperatorCheck(outputTable, ref curLexemIndex))
                 {
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    result = true;
+                    while (curLexem.LexemeCode == Lexems.First(l => l.Value == ";").Key && result)
+                    {
+                        curLexemIndex++;
+                        if (!OperatorCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = false;
+                        }
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool OperatorCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (curLexem.SubString == "read" || curLexem.SubString == "write")
+                {
+                    if (ReadWriteCheck(outputTable, ref curLexemIndex))
+                    {
+                        result = true;
+                    }
+                }
+                else if (curLexem.LexemeCode == Lexems.First(l => l.Value == "id").Key)
+                {
+                    curLexemIndex++;
+                    curLexem = outputTable.OutputRows[curLexemIndex++];
+                    if (curLexem.SubString == "=")
+                    {
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (ExpressionCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = true;
+                        }
+                    }
+                }
+                else if (curLexem.SubString == "if")
+                {
+                    curLexemIndex++;
                     curLexem = outputTable.OutputRows[curLexemIndex++];
                     if (curLexem.SubString == "(")
                     {
-                        if (IdentifiersListCheck(outputTable,ref curLexemIndex))
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (LogExpressionCheck(outputTable, ref curLexemIndex))
                         {
                             curLexem = outputTable.OutputRows[curLexemIndex++];
                             if (curLexem.SubString == ")")
                             {
                                 curLexem = outputTable.OutputRows[curLexemIndex++];
-                                if (curLexem.SubString == ";")
+                                if (curLexem.SubString == "then")
                                 {
-                                    curLexemIndex++;
-                                    result = true;
+                                    curLexem = outputTable.OutputRows[curLexemIndex];
+                                    if (OperatorCheck(outputTable, ref curLexemIndex))
+                                    {
+                                        result = true;
+                                    }
                                 }
                             }
-
                         }
                     }
-                    
+                }
+                else if (curLexem.SubString == "do")
+                {
+                    curLexemIndex++;
+                    curLexem = outputTable.OutputRows[curLexemIndex++];
+                    if (curLexem.LexemeCode == Lexems.First(l => l.Value == "id").Key)
+                    {
+                        curLexem = outputTable.OutputRows[curLexemIndex++];
+                        if (curLexem.SubString == "=")
+                        {
+                            curLexem = outputTable.OutputRows[curLexemIndex];
+                            if (ExpressionCheck(outputTable, ref curLexemIndex))
+                            {
+                                curLexem = outputTable.OutputRows[curLexemIndex++];
+                                if (curLexem.SubString == "to")
+                                {
+                                    curLexem = outputTable.OutputRows[curLexemIndex];
+                                    if (ExpressionCheck(outputTable, ref curLexemIndex))
+                                    {
+                                        curLexem = outputTable.OutputRows[curLexemIndex++];
+                                        if (curLexem.SubString == "by")
+                                        {
+                                            curLexem = outputTable.OutputRows[curLexemIndex];
+                                            if (ExpressionCheck(outputTable, ref curLexemIndex))
+                                            {
+                                                curLexem = outputTable.OutputRows[curLexemIndex++];
+                                                if (curLexem.SubString == "while")
+                                                {
+                                                    curLexem = outputTable.OutputRows[curLexemIndex++];
+                                                    if (curLexem.SubString == "(")
+                                                    {
+                                                        curLexem = outputTable.OutputRows[curLexemIndex];                                                        
+                                                        if (LogExpressionCheck(outputTable, ref curLexemIndex))
+                                                        {
+                                                            curLexem = outputTable.OutputRows[curLexemIndex++];
+                                                            if (curLexem.SubString == ")")
+                                                            {
+                                                                curLexem = outputTable.OutputRows[curLexemIndex++];
+                                                                if (curLexem.SubString == "{")
+                                                                {
+                                                                    curLexem = outputTable.OutputRows[curLexemIndex];
+                                                                    if (OperatorsListCheck(outputTable, ref curLexemIndex))
+                                                                    {
+                                                                        curLexem = outputTable.OutputRows[curLexemIndex++];
+                                                                        if (curLexem.SubString == "}")
+                                                                        {
+                                                                            result = true;
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool ReadWriteCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex++];
+                if (curLexem.SubString == "write" || curLexem.SubString == "read")
+                {
+                    curLexem = outputTable.OutputRows[curLexemIndex++];
+                    if (curLexem.SubString == "(")
+                    {
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (IdentifiersListCheck(outputTable, ref curLexemIndex))
+                        {
+                            curLexem = outputTable.OutputRows[curLexemIndex++];
+                            if (curLexem.SubString == ")")
+                            {
+                                curLexem = outputTable.OutputRows[curLexemIndex];
+                                result = true;
+                            }
+                        }
+                    }
                 }
             }
             catch (ArgumentOutOfRangeException e)
@@ -431,11 +577,12 @@ namespace Translator_1
                 OutputRow curLexem = outputTable.OutputRows[curLexemIndex++];
                 if (curLexem.LexemeCode == Lexems.First(l => l.Value == "id").Key)
                 {
-                    curLexem = outputTable.OutputRows[curLexemIndex++];
+                    curLexem = outputTable.OutputRows[curLexemIndex];
                     result = true;
 
                     while (curLexem.SubString == "," && result)
                     {
+                        curLexemIndex++;
                         curLexem = outputTable.OutputRows[curLexemIndex++];
                         if (curLexem.LexemeCode == Lexems.First(l => l.Value == "id").Key)
                         {
@@ -444,7 +591,228 @@ namespace Translator_1
                         else result = false;
                     }
                 }
-                return result;
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool ExpressionCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (TermCheck(outputTable, ref curLexemIndex))
+                {
+                    result = true;
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    while ((curLexem.SubString == "+" || curLexem.SubString == "-") && result)
+                    {
+                        curLexemIndex++;
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (!TermCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool TermCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (MultCheck(outputTable, ref curLexemIndex))
+                {
+                    result = true;
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    while ((curLexem.SubString == "*" || curLexem.SubString == "/") && result)
+                    {
+                        curLexemIndex++;
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (!MultCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool MultCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (PrimaryExpressionCheck(outputTable, ref curLexemIndex))
+                {
+                    result = true;
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    while ((curLexem.SubString == "^") && result)
+                    {
+                        curLexemIndex++;
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (!PrimaryExpressionCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool PrimaryExpressionCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (curLexem.LexemeCode == Lexems.First(l => l.Value == "id").Key || curLexem.LexemeCode == Lexems.First(l => l.Value == "con").Key)
+                {
+                    curLexemIndex++;
+                    result = true;
+                }
+                else if (curLexem.SubString == "(")
+                {
+                    curLexem = outputTable.OutputRows[curLexemIndex++];
+                    if (ExpressionCheck(outputTable, ref curLexemIndex))
+                    {
+                        curLexem = outputTable.OutputRows[curLexemIndex++];
+                        if (curLexem.SubString == ")")
+                        {
+                            result = true;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool LogExpressionCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (LogTermCheck(outputTable, ref curLexemIndex))
+                {
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    result = true;
+                    while (curLexem.SubString == "or" && result)
+                    {
+                        curLexemIndex++;
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (!LogTermCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool LogTermCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (LogMultCheck(outputTable, ref curLexemIndex))
+                {
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    result = true;
+                    while (curLexem.SubString == "and" && result)
+                    {
+                        curLexemIndex++;
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (!LogTermCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = false;
+                        }
+                    }
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public static bool LogMultCheck(OutputTable outputTable, ref int curLexemIndex)
+        {
+            bool result = false;
+            try
+            {
+                OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
+                if (curLexem.SubString == "(")
+                {
+                    curLexemIndex++;
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    if (LogExpressionCheck(outputTable, ref curLexemIndex))
+                    {
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (curLexem.SubString == ")")
+                        {
+                            curLexemIndex++;
+                            result = true;
+                        }
+                    }
+                }
+                else if (curLexem.SubString == "!")
+                {
+                    curLexemIndex++;
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    if (LogMultCheck(outputTable, ref curLexemIndex))
+                    {
+                        result = true;
+                    }
+                }
+                else if (ExpressionCheck(outputTable, ref curLexemIndex))
+                {
+                    curLexem = outputTable.OutputRows[curLexemIndex];
+                    if (curLexem.SubString == "<" || curLexem.SubString == "<=" || curLexem.SubString == ">"
+                        || curLexem.SubString == ">=" || curLexem.SubString == "!=" || curLexem.SubString == "==")
+                    {
+                        curLexemIndex++;
+                        curLexem = outputTable.OutputRows[curLexemIndex];
+                        if (ExpressionCheck(outputTable, ref curLexemIndex))
+                        {
+                            result = true;
+                        }
+                    }
+                }
             }
             catch (ArgumentOutOfRangeException e)
             {

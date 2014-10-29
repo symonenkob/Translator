@@ -14,3 +14,13 @@ E:\Навчання\5 Семестр\Translators\Translator_1\obj\Debug\Translat
 C:\Users\klok\Documents\GitHub\Translator\bin\Debug\Translator_1.exe.config
 C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.exe
 C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.pdb
+C:\Users\klok\Documents\GitHub\Translator\bin\Debug\Translator_1.exe
+C:\Users\klok\Documents\GitHub\Translator\bin\Debug\Translator_1.pdb
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.csprojResolveAssemblyReference.cache
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\MainWindow.baml
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\MainWindow.g.cs
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\App.g.cs
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1_MarkupCompile.cache
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.g.resources
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.Properties.Resources.resources
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.csproj.GenerateResource.Cache
