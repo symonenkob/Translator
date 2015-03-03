@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Translator_1
 {
@@ -392,14 +389,14 @@ namespace Translator_1
             };
         }
 
-        public List<AutomateRow> getAutomateRowsByAlpha(int alpha)
+        public List<AutomateRow> GetAutomateRowsByAlpha(int alpha)
         {
             return Main.Where(r => r.Alpha == alpha).ToList();
         }
 
         public List<AutomateRow> DoAutomateTranslate(List<OutputRow> outputRows)
         {
-            List<AutomateRow> curAutomateRows = getAutomateRowsByAlpha(0);
+            List<AutomateRow> curAutomateRows = GetAutomateRowsByAlpha(0);
 
             OutputRow curOutputRow = outputRows[0];
             int curOutputRowIndex = 0;
@@ -441,7 +438,7 @@ namespace Translator_1
                                 Stack.Push((int) curAutomateRow.StackInput);
                         }
 
-                        curAutomateRows = getAutomateRowsByAlpha(nextBeta);
+                        curAutomateRows = GetAutomateRowsByAlpha(nextBeta);
                         if (curAutomateRow.Beta == -1)
                         {
                             endFound = true;

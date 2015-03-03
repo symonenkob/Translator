@@ -25,11 +25,16 @@ namespace Translator_1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly string filePath = "c:\\SavedText.txt";
+        private readonly string filePath = Environment.CurrentDirectory+"\\ProgramExample.txt";
         OutputTable outputTable = new OutputTable();
         public MainWindow()
         {
             InitializeComponent();
+
+            if (!File.Exists(filePath))
+            {
+                LoadButton.IsEnabled = false;
+            }
 
             this.PreviewKeyDown += new KeyEventHandler(HandleEsc);
         }
@@ -38,7 +43,7 @@ namespace Translator_1
         {
             if (e.Key == Key.Escape)
                 Close();
-            else LexicStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.SandyBrown);
+            else LexicStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.SandyBrown);
         }
 
         private void SaveButton_OnClick(object sender, RoutedEventArgs e)
@@ -48,7 +53,8 @@ namespace Translator_1
             {
                 file.WriteLine(textToBeTranslated);
             }
-            LexicStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+            LexicStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.Green);
+            LoadButton.IsEnabled = true;
         }
 
         private void LoadButton_OnClick(object sender, RoutedEventArgs e)
@@ -59,7 +65,7 @@ namespace Translator_1
                 textFromFile = file.ReadToEnd();
             }
             TextInputBox.Text = textFromFile;
-            LexicStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+            LexicStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.Green);
         }
 
         private void TranslateButton_OnClick(object sender, RoutedEventArgs e)
@@ -67,6 +73,10 @@ namespace Translator_1
             String outputText;
             outputText = Translate(TextInputBox.Text);
             TextOutputBox.Text = outputText;
+
+            AutomateButton.IsEnabled = true;
+            RelationTableButton.IsEnabled = true;
+            AscendingButton.IsEnabled = true;
         }
 
         private string Translate(string inputText)
@@ -77,18 +87,18 @@ namespace Translator_1
 
             if (char.IsDigit(outputText[0]))
             {
-                LexicStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+                LexicStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.Green);
 
                 String synthaxResult = Translator.DoSynthaxTranslate(outputTable);
                 if (synthaxResult != null)
                 {
-                    SynthaxStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                    SynthaxStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.Red);
                     outputText = synthaxResult;
                 }
-                else SynthaxStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.Green);
+                else SynthaxStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.Green);
             }
             else
-                LexicStatusRectangle.Fill = new SolidColorBrush(System.Windows.Media.Colors.Red);
+                LexicStatusRectangle.Background = new SolidColorBrush(System.Windows.Media.Colors.Red);
 
             OutputList.ItemsSource = outputTable.OutputRows;
             VariableList.ItemsSource = outputTable.Variables;
@@ -99,7 +109,7 @@ namespace Translator_1
 
         private void AutomatButton_OnClick(object sender, RoutedEventArgs e)
         {
-            AutomatTabItem.IsSelected = true;
+            AutomateTabItem.IsSelected = true;
             Automate automate = new Automate();
 
             List<AutomateRow> resulingAutomateRows = automate.DoAutomateTranslate(outputTable.OutputRows);

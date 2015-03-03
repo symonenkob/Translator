@@ -1,0 +1,24 @@
+pr{
+int ,a,b;
+read(,a,b);
+write(,a,b);
+if [ [!a>b] and [a==2*(b-1)] ] then 
+    b = b + 1;
+a = a^3;
+do a=1 to 2 by 1 while[a>0]
+{
+    b = b + 1;
+    a = 3
+}
+}
+
+
+
+
+
+
+
+
+
+
+
