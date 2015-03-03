@@ -40,6 +40,8 @@ namespace Translator_1
             SingleSeparators.Add('+');
             SingleSeparators.Add('-');
             SingleSeparators.Add('^');
+            SingleSeparators.Add('[');
+            SingleSeparators.Add(']');
 
             Lexems.Add(1, "pr");
             Lexems.Add(2, "{");
@@ -75,6 +77,8 @@ namespace Translator_1
             Lexems.Add(32, "!");
             Lexems.Add(33, "and");
             Lexems.Add(34, "or");
+            Lexems.Add(35, "[");
+            Lexems.Add(36, "]");
         }
 
         public static string DoLexTranslate(String filteredText, ref OutputTable outputTable)
@@ -111,65 +115,6 @@ namespace Translator_1
                         return ErrorHandler.GetErrorDescription(resultCode, outputTable.OutputRows.Last().SubString,
                             curRow, curCol + 1);
                     }
-
-                    /*if (Lexems.ContainsValue(nextLexem))
-                        outputText += Lexems.FirstOrDefault(l => l.Value == nextLexem).Key.ToString() + ' ';
-                    else if (outputTable.Variables.ContainsValue(nextLexem))
-                    {
-                        outputText += Lexems.FirstOrDefault(l => l.Value == "id").Key.ToString() + ' ';
-                    }
-                    else
-                    {
-                        int constantCode;
-                        bool isFirstDigit = false;
-                        isFirstDigit = int.TryParse(nextLexem, out constantCode);
-                        if (outputTable.Constants.ContainsValue(constantCode) && isFirstDigit)
-                        {
-                            outputText += Lexems.FirstOrDefault(l => l.Value == "con").Key.ToString() + ' ';
-                        }
-                        else
-                        {
-                            if(nextLexem.Length>=1 && char.IsLetter(nextLexem[0]))
-                                return ErrorHandler.GetErrorDescription(ErrorCode.LexUnknownIdentifierFound, nextLexem, curRow, curCol+1);
-                            else if (nextLexem.Length == 1 && !char.IsDigit(nextLexem[0]))
-                            {
-                                return ErrorHandler.GetErrorDescription(ErrorCode.LexUnknownLexemFound, nextLexem, curRow,
-                                    curCol+1);
-                            }
-                            else
-                            {
-                                return ErrorHandler.GetErrorDescription(ErrorCode.UnknownError, nextLexem, curRow,
-                                    curCol+1);
-                            }
-                        }
-                    }*/
-                    /*if (Lexems.ContainsValue(nextLexem))//state 2
-                    {
-                        outputTable.OutputRows.Add(new OutputRow
-                        {
-                            Row = curRow,
-                            SubString = nextLexem,
-                            LexemeCode = Lexems.FirstOrDefault(l => l.Value == nextLexem).Key
-                        });
-                    }
-                    else
-                    {
-                        int charsToThisRow = CountCharsToRow(filteredText, curRow);
-                        string firstLexemInRow = GetNextLexem(filteredText.Substring(charsToThisRow,
-                            filteredText.Length - charsToRow - curCol), outputTable, curRow);
-                        if (firstLexemInRow.ToLower() == "int")
-                        {
-                            if (outputTable.Variables != null)
-                                outputTable.Variables.Add(outputTable.Variables.Count + 1, nextLexem);
-                            else
-                                outputTable.Variables.Add(1, nextLexem);
-                        }
-                        else
-                        {
-                            return ErrorHandler.GetErrorDescription(ErrorCode.LexUnknownLexemFound, nextLexem, curRow,
-                           curCol + 1);
-                        }
-                    }*/
 
                     curCol += outputTable.OutputRows.Last().SubString.Length;
                 }
@@ -344,10 +289,6 @@ namespace Translator_1
                 }
 
             }
-            //catch (ArgumentOutOfRangeException e)
-            {
-                // outputText = "Program doesn't suits a template";
-            }
             return outputText;
         }
 
@@ -448,13 +389,13 @@ namespace Translator_1
                 {
                     curLexemIndex++;
                     curLexem = outputTable.OutputRows[curLexemIndex++];
-                    if (curLexem.SubString == "(")
+                    if (curLexem.SubString == "[")
                     {
                         curLexem = outputTable.OutputRows[curLexemIndex];
                         if (LogExpressionCheck(outputTable, ref curLexemIndex))
                         {
                             curLexem = outputTable.OutputRows[curLexemIndex++];
-                            if (curLexem.SubString == ")")
+                            if (curLexem.SubString == "]")
                             {
                                 curLexem = outputTable.OutputRows[curLexemIndex++];
                                 if (curLexem.SubString == "then")
@@ -497,13 +438,13 @@ namespace Translator_1
                                                 if (curLexem.SubString == "while")
                                                 {
                                                     curLexem = outputTable.OutputRows[curLexemIndex++];
-                                                    if (curLexem.SubString == "(")
+                                                    if (curLexem.SubString == "[")
                                                     {
                                                         curLexem = outputTable.OutputRows[curLexemIndex];                                                        
                                                         if (LogExpressionCheck(outputTable, ref curLexemIndex))
                                                         {
                                                             curLexem = outputTable.OutputRows[curLexemIndex++];
-                                                            if (curLexem.SubString == ")")
+                                                            if (curLexem.SubString == "]")
                                                             {
                                                                 curLexem = outputTable.OutputRows[curLexemIndex++];
                                                                 if (curLexem.SubString == "{")
@@ -776,14 +717,14 @@ namespace Translator_1
             try
             {
                 OutputRow curLexem = outputTable.OutputRows[curLexemIndex];
-                if (curLexem.SubString == "(")
+                if (curLexem.SubString == "[")
                 {
                     curLexemIndex++;
                     curLexem = outputTable.OutputRows[curLexemIndex];
                     if (LogExpressionCheck(outputTable, ref curLexemIndex))
                     {
                         curLexem = outputTable.OutputRows[curLexemIndex];
-                        if (curLexem.SubString == ")")
+                        if (curLexem.SubString == "]")
                         {
                             curLexemIndex++;
                             result = true;

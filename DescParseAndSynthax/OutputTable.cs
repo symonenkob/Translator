@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Translator_1
 {
-    class OutputTable
+    public class OutputTable
     {
         public String OutputText { get; set; }
         public List<OutputRow> OutputRows = new List<OutputRow>();
@@ -41,6 +41,27 @@ namespace Translator_1
                 }
             }
             return outputText;
+        }
+
+        public List<string> GetLexemsOnly()
+        {
+            List<string> result = new List<string>();
+            foreach (var outputRow in OutputRows)
+            {
+                if (outputRow.LexemeCode == 14)
+                {
+                    result.Add("id");
+                }
+                else if (outputRow.LexemeCode == 15)
+                {
+                    result.Add("con");
+                }
+                else
+                {
+                    result.Add(outputRow.SubString);
+                }
+            }
+            return result;
         }
 
         public OutputRow NextRow(OutputRow curRow)

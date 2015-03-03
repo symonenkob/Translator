@@ -1,0 +1,27 @@
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe.config
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.pdb
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.csprojResolveAssemblyReference.cache
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.Form1.resources
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.Properties.Resources.resources
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.csproj.GenerateResource.Cache
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.exe
+c:\users\asus\documents\visual studio 2012\Projects\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.pdb
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe.config
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.exe
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.pdb
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.pdb
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.csprojResolveAssemblyReference.cache
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.Form1.resources
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.Properties.Resources.resources
+C:\Users\klok\Desktop\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.csproj.GenerateResource.Cache
+E:\Навчання\5 Семестр\Translators\translatorsLab4\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe.config
+E:\Навчання\5 Семестр\Translators\translatorsLab4\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.exe
+E:\Навчання\5 Семестр\Translators\translatorsLab4\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.pdb
+E:\Навчання\KPI\5 Семестр\Translators\translatorsLab4\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe.config
+E:\Навчання\KPI\5 Семестр\Translators\translatorsLab4\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.exe
+E:\Навчання\KPI\5 Семестр\Translators\translatorsLab4\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.pdb
+C:\Users\klok\Documents\GitHub\Translator\bin\Debug\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe.config
+C:\Users\klok\Documents\GitHub\Translator\bin\Debug\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.exe
+C:\Users\klok\Documents\GitHub\Translator\bin\Debug\translatorsLab4\translatorsLab4\obj\Debug\translatorsLab4.pdb

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Translator_1.AscendingParse;
+using Path = System.IO.Path;
 
 namespace Translator_1
 {
@@ -23,6 +26,7 @@ namespace Translator_1
     public partial class MainWindow : Window
     {
         private readonly string filePath = "c:\\SavedText.txt";
+        OutputTable outputTable = new OutputTable();
         public MainWindow()
         {
             InitializeComponent();
@@ -68,7 +72,7 @@ namespace Translator_1
         private string Translate(string inputText)
         {
             String outputText;
-            OutputTable outputTable = new OutputTable();
+
             outputText = Translator.DoLexTranslate(inputText, ref outputTable);
 
             if (char.IsDigit(outputText[0]))
@@ -90,9 +94,46 @@ namespace Translator_1
             VariableList.ItemsSource = outputTable.Variables;
             ConstantList.ItemsSource = outputTable.Constants;
 
-            
-
             return outputText;
+        }
+
+        private void AutomatButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            AutomatTabItem.IsSelected = true;
+            Automate automate = new Automate();
+
+            List<AutomateRow> resulingAutomateRows = automate.DoAutomateTranslate(outputTable.OutputRows);
+            AutomateRowsListView.ItemsSource = resulingAutomateRows;
+        }
+
+        private async void Lab5Button_Click(object sender, RoutedEventArgs e)
+        {
+            Lab5TabItem.IsSelected = true;
+            RelationTableStatusLabel.Background = new SolidColorBrush(Colors.Red);
+            AscendingParseStatusLabel.Background = new SolidColorBrush(Colors.Red);
+
+            if(TableConstructor.Table==null)
+                await Task.Run(() => TableConstructor.Construct());
+            RelationTableStatusLabel.Background = new SolidColorBrush(Colors.Green);
+
+            List<AscOutputRow> resultingRows = AscendingTranslator.Translate(outputTable.GetLexemsOnly());
+            if (resultingRows.Last().InputChain.Length == 0)
+            {
+                AscendingParseStatusLabel.Background = new SolidColorBrush(Colors.Green);
+            }
+            Lab5RowsListView.ItemsSource = resultingRows;
+        }
+
+        private void RelationTableButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(Environment.CurrentDirectory + @"\translatorsLab4\translatorsLab4\bin\Debug\translatorsLab4.exe");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to load file");
+            }
         }
     }
 }

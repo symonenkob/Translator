@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Translator_1
 {
-    class OutputRow
+    public class OutputRow
     {
         public int Row { get; set; }
         public String SubString { get; set; }
