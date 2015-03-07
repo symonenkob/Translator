@@ -213,7 +213,7 @@ namespace Translator_1
             return "";
         }
 
-        public static async void Construct()
+        public static void Construct()
         {
             Grammar[0] = new[] { "<пр>", "pr", "{", "<сп.об1>", ";", "<сп.оп1>", "}" };
             Grammar[1] = new[] { "<сп.об1>", "<сп.об>" };

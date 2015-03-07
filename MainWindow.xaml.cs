@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Translator_1
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly string filePath = Environment.CurrentDirectory+"\\ProgramExample.txt";
+        private readonly string filePath = Environment.CurrentDirectory + "\\ProgramExample.txt";
         OutputTable outputTable = new OutputTable();
         public MainWindow()
         {
@@ -122,7 +123,7 @@ namespace Translator_1
             RelationTableStatusLabel.Background = new SolidColorBrush(Colors.Red);
             AscendingParseStatusLabel.Background = new SolidColorBrush(Colors.Red);
 
-            if(TableConstructor.Table==null)
+            if (TableConstructor.Table == null)
                 await Task.Run(() => TableConstructor.Construct());
             RelationTableStatusLabel.Background = new SolidColorBrush(Colors.Green);
 
@@ -144,6 +145,70 @@ namespace Translator_1
             {
                 throw new Exception("Failed to load file");
             }
+        }
+
+        private async void RpnButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            RelationTableStatusLabel.Background = new SolidColorBrush(Colors.Red);
+            AscendingParseStatusLabel.Background = new SolidColorBrush(Colors.Red);
+
+            RpnStatusLabel.Visibility = Visibility.Visible;
+            RpnStatusLabel.Content = "Loading...";
+
+            if (TableConstructor.Table == null)
+                await Task.Run(() => TableConstructor.Construct());
+            RelationTableStatusLabel.Background = new SolidColorBrush(Colors.Green);
+
+            List<AscOutputRow> resultingRows = AscendingTranslator.Translate(outputTable.GetLexemsOnly(), outputTable.GetLexemsOnly(true), true);
+
+            if (resultingRows.Last().Stack == "# <врж1>")
+            {
+                AscendingParseStatusLabel.Background = new SolidColorBrush(Colors.Green);
+            }
+
+            bool inputSucceeded = true;
+            List<string> ids = outputTable.GetIds();
+            if (ids.Count > 0)
+            {
+                ValuesWindow win = new ValuesWindow(string.Join(" ", ids));
+                win.ShowDialog();
+                string[] values = win.Values.Text.Split();
+
+                if (ids.Count == values.Length)
+                {
+                    ids.ForEach(
+                        i => resultingRows.Last().Rpn = resultingRows.Last().Rpn.Replace(i, values[ids.IndexOf(i)]));
+                }
+                else
+                {
+                    inputSucceeded = false;
+                }
+            }
+            Lab5TabItem.IsSelected = true;
+
+            try
+            {
+                if (inputSucceeded == true && !string.IsNullOrEmpty(resultingRows.Last().InputChain))
+                {
+                    resultingRows.Add(new AscOutputRow()
+                    {
+                        Rpn = "result = " + RpnCalculator.Calculate(resultingRows.Last().Rpn)
+                    });
+                }
+            }
+            catch (DivideByZeroException ex)
+            {
+                resultingRows.Add(new AscOutputRow()
+                {
+                    Rpn = "Divide by 0 exception"
+                });
+                AscendingParseStatusLabel.Background = new SolidColorBrush(Colors.Red);
+            }
+
+            Lab5RowsListView.ItemsSource = resultingRows;
+
+            RpnStatusLabel.Content = "Loaded";
+            RpnStatusLabel.Background = new SolidColorBrush(Colors.Green);
         }
     }
 }

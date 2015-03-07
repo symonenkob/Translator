@@ -13,7 +13,7 @@ namespace Translator_1
         public Dictionary<int, string> Variables = new Dictionary<int, string>();
         public Dictionary<int, int> Constants = new Dictionary<int, int>();
 
-        public void AddToOutputTable(int row, string lexem, int lexemeCode, int? IdConIndex=null)
+        public void AddToOutputTable(int row, string lexem, int lexemeCode, int? IdConIndex = null)
         {
             OutputRows.Add(new OutputRow
             {
@@ -27,7 +27,7 @@ namespace Translator_1
         public String GetOutputText()
         {
             int prevRow = 1;
-            String outputText=null;
+            String outputText = null;
             foreach (OutputRow outputRow in OutputRows)
             {
                 if (outputRow.Row == prevRow)
@@ -43,22 +43,36 @@ namespace Translator_1
             return outputText;
         }
 
-        public List<string> GetLexemsOnly()
+        public List<string> GetLexemsOnly(bool withIdConNames = false)
         {
             List<string> result = new List<string>();
             foreach (var outputRow in OutputRows)
             {
-                if (outputRow.LexemeCode == 14)
+                if (!withIdConNames && outputRow.LexemeCode == 14)
                 {
                     result.Add("id");
                 }
-                else if (outputRow.LexemeCode == 15)
+                else if (!withIdConNames && outputRow.LexemeCode == 15)
                 {
                     result.Add("con");
                 }
                 else
                 {
                     result.Add(outputRow.SubString);
+                }
+            }
+            return result;
+        }
+
+        public List<string> GetIds()
+        {
+            List<string> result = new List<string>();
+            foreach (var outputRow in OutputRows)
+            {
+                if (outputRow.LexemeCode == 14)
+                {
+                    if (result.FirstOrDefault(r => r == outputRow.SubString) == null)
+                        result.Add(outputRow.SubString);
                 }
             }
             return result;

@@ -30,7 +30,7 @@
                             <ListView Grid.Column="0" Name="OutputList" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Row" Width="82" DisplayMemberBinding="{Binding Row}" />
+                                        <GridViewColumn Header="Row" Width="40" DisplayMemberBinding="{Binding Row}" />
                                         <GridViewColumn Header="SubString" Width="82" DisplayMemberBinding="{Binding SubString}" />
                                         <GridViewColumn Header="LexemeCode" Width="82" DisplayMemberBinding="{Binding LexemeCode}" />
                                         <GridViewColumn Header="IdConIndex" Width="82" DisplayMemberBinding="{Binding IdConTableIndex}" />
@@ -40,7 +40,7 @@
                             <ListView Name="VariableList" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Key" Width="82" DisplayMemberBinding="{Binding Key}" />
+                                        <GridViewColumn Header="Key" Width="40" DisplayMemberBinding="{Binding Key}" />
                                         <GridViewColumn Header="Value" Width="82" DisplayMemberBinding="{Binding Value}" />
                                     </GridView>
                                 </ListView.View>
@@ -48,7 +48,7 @@
                             <ListView Name="ConstantList" Grid.Column="2" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch">
                                 <ListView.View>
                                     <GridView>
-                                        <GridViewColumn Header="Key" Width="82" DisplayMemberBinding="{Binding Key}" />
+                                        <GridViewColumn Header="Key" Width="40" DisplayMemberBinding="{Binding Key}" />
                                         <GridViewColumn Header="Value" Width="82" DisplayMemberBinding="{Binding Value}" />
                                     </GridView>
                                 </ListView.View>
@@ -69,6 +69,8 @@
                     <Button Name="AutomateButton" Click="AutomatButton_OnClick" Grid.Row="1" Grid.Column="5" Width="150" Height="30" Content="Automate" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Top" IsEnabled="False" Margin="10,10,0,0"/>
                     <Button Name="RelationTableButton" Content="RelationTable" Grid.Column="5" HorizontalAlignment="Left" Margin="170,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="150" Height="30" FontSize="15" IsEnabled="False" Click="RelationTableButton_Click"/>
                     <Button Name="AscendingButton" Content="AscendingParse" Grid.Column="5" HorizontalAlignment="Left" Margin="330,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="150" Height="30" FontSize="15" IsEnabled="False" Click="Lab5Button_Click"/>
+                    <Button Name="RpnButton" Content="RPN" Grid.Column="5" HorizontalAlignment="Left" Margin="490,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="150" Height="30" FontSize="15" Click="RpnButton_OnClick"/>
+                    <Label Name="RpnStatusLabel" Grid.Row="1" Grid.Column="5" Margin="650,10,0,0" Width="60" Height="30" Background="RoyalBlue" Content="Loading..." HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden"/>
 
                 </Grid>
             </TabItem>
@@ -102,6 +104,7 @@
                                 <GridViewColumn Header="Stack" Width="650" DisplayMemberBinding="{Binding Stack}" />
                                 <GridViewColumn Header="Relation" Width="50" DisplayMemberBinding="{Binding Relation}" />
                                 <GridViewColumn Header="InputChain" Width="100" DisplayMemberBinding="{Binding InputChain}" />
+                                <GridViewColumn Header="RPN" Width="100" DisplayMemberBinding="{Binding Rpn}" />
                             </GridView>
                         </ListView.View>
                     </ListView>

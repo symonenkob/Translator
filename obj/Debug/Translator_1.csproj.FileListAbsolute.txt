@@ -24,3 +24,5 @@ C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1_MarkupCompile.c
 C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.g.resources
 C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.Properties.Resources.resources
 C:\Users\klok\Documents\GitHub\Translator\obj\Debug\Translator_1.csproj.GenerateResource.Cache
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\ValuesWindow.baml
+C:\Users\klok\Documents\GitHub\Translator\obj\Debug\ValuesWindow.g.cs

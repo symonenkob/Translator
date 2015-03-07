@@ -6,5 +6,6 @@
         public string Stack { get; set; }
         public string Relation { get; set; }
         public string InputChain { get; set; }
+        public string Rpn { get; set; }
     }
 }
