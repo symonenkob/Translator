@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Translator_1.AscendingParse;
+using Translator_1.RPN;
 using Path = System.IO.Path;
 
 namespace Translator_1
@@ -78,6 +79,8 @@ namespace Translator_1
             AutomateButton.IsEnabled = true;
             RelationTableButton.IsEnabled = true;
             AscendingButton.IsEnabled = true;
+            RpnButton.IsEnabled = true;
+            IfRpnButton.IsEnabled = true;
         }
 
         private string Translate(string inputText)
@@ -209,6 +212,12 @@ namespace Translator_1
 
             RpnStatusLabel.Content = "Loaded";
             RpnStatusLabel.Background = new SolidColorBrush(Colors.Green);
+        }
+
+        private async void IfRpnButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            RpnListView.ItemsSource = RpnConstructor.Construct(outputTable.OutputRows);
+            RpnTabItem.IsSelected = true;
         }
     }
 }
